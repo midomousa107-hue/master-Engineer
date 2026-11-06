@@ -23,10 +23,10 @@ footer{text-align:center;color:#8aa0b1;font-size:10px;padding:28px 8px}
 @media(min-width:600px){.grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
 </style></head>
 <body>
-<header><div class="brand"><div class="logo">⌖</div><div><h1>MASTER ENGINEER</h1><p>SURVEYING • GIS • REMOTE SENSING</p></div></div></header>
+<header><div class="brand"><div class="logo">⌖</div><div style="flex:1"><h1>MASTER ENGINEER</h1><p>SURVEYING • GIS • REMOTE SENSING</p></div><button onclick="toggleLang()" style="border:1px solid #6bb9d4;background:#0b4268;color:white;border-radius:10px;padding:8px 10px">EN / عربي</button></div></header>
 <main>
 <div id="home">
-<p class="welcome">مرحباً بك — أدواتك الهندسية الأساسية في مكان واحد، وتعمل هذه النسخة دون اتصال بالإنترنت.</p>
+<p class="welcome">مرحباً بك — أدواتك الهندسية الأساسية في مكان واحد، وتعمل هذه النسخة دون اتصال بالإنترنت. المحاكيات تعليمية ولا تستبدل القياسات الميدانية المعتمدة.</p>
 <div class="grid">
 <button class="tile" onclick="show('total')"><span class="ico">📐</span><b>محاكي Total Station</b><small>حسابات الزوايا والمسافات والإحداثيات</small></button>
 <button class="tile" onclick="show('level')"><span class="ico">📏</span><b>محاكي Level</b><small>حساب المناسيب بطريقة HI</small></button>
@@ -34,6 +34,7 @@ footer{text-align:center;color:#8aa0b1;font-size:10px;padding:28px 8px}
 <button class="tile" onclick="show('coords')"><span class="ico">🌐</span><b>أنظمة الإحداثيات</b><small>مرجع سريع للمفاهيم والأنظمة</small></button>
 <button class="tile" onclick="show('gis')"><span class="ico">🗺️</span><b>GIS Academy</b><small>دروس ArcGIS Pro و QGIS</small></button>
 <button class="tile" onclick="show('remote')"><span class="ico">🌍</span><b>Remote Sensing</b><small>الاستشعار عن بُعد ومؤشر NDVI</small></button>
+<button class="tile" onclick="show('history')"><span class="ico">🗃️</span><b>سجل العمليات</b><small>حفظ واستعراض القياسات محلياً</small></button>
 </div></div>
 
 <section id="total" class="section"><div class="topline"><button class="back" onclick="home()">رجوع</button><h2>محاكي Total Station</h2></div>
@@ -42,20 +43,20 @@ footer{text-align:center;color:#8aa0b1;font-size:10px;padding:28px 8px}
 <label>إحداثي Northing للنقطة A</label><input id="tn" type="number" value="3000000">
 <label>المسافة الأفقية (متر)</label><input id="td" type="number" value="100">
 <label>الاتجاه Azimuth (درجة)</label><input id="ta" type="number" value="45">
-<button class="primary" onclick="calcTotal()">احسب إحداثيات النقطة B</button><div id="tr" class="result" hidden></div></div></section>
+<button class="primary" onclick="calcTotal()">احسب إحداثيات النقطة B</button><div id="tr" class="result" hidden></div><button class="primary" onclick="saveResult('Total Station','tr')">حفظ العملية</button></div></section>
 
 <section id="level" class="section"><div class="topline"><button class="back" onclick="home()">رجوع</button><h2>محاكي Level</h2></div>
 <div class="panel"><p class="note">طريقة منسوب خط النظر HI: HI = RL الخلفية + BS، ثم RL النقطة = HI − FS.</p>
 <label>منسوب النقطة المرجعية RL (متر)</label><input id="lr" type="number" value="100">
 <label>قراءة خلفية BS (متر)</label><input id="lbs" type="number" value="1.325" step="0.001">
 <label>قراءة أمامية FS (متر)</label><input id="lfs" type="number" value="2.115" step="0.001">
-<button class="primary" onclick="calcLevel()">احسب المنسوب</button><div id="lres" class="result" hidden></div></div></section>
+<button class="primary" onclick="calcLevel()">احسب المنسوب</button><div id="lres" class="result" hidden></div><button class="primary" onclick="saveResult('Level','lres')">حفظ العملية</button></div></section>
 
 <section id="gps" class="section"><div class="topline"><button class="back" onclick="home()">رجوع</button><h2>GPS والإحداثيات</h2></div>
 <div class="panel"><p class="note">تحويل تقريبي WGS84 إلى UTM باستخدام نطاق المنطقة المناسب. للاستخدام التعليمي والتحقق الميداني، وليس للأعمال المساحية القانونية عالية الدقة.</p>
 <label>خط العرض Latitude (درجة)</label><input id="lat" type="number" value="30.0444" step="any">
 <label>خط الطول Longitude (درجة)</label><input id="lon" type="number" value="31.2357" step="any">
-<button class="primary" onclick="toUTM()">حوّل إلى UTM</button><div id="gres" class="result" hidden></div></div></section>
+<button class="primary" onclick="toUTM()">حوّل إلى UTM</button><div id="gres" class="result" hidden></div><button class="primary" onclick="saveResult('GPS / UTM','gres')">حفظ العملية</button></div></section>
 
 <section id="coords" class="section"><div class="topline"><button class="back" onclick="home()">رجوع</button><h2>أنظمة الإحداثيات</h2></div><div class="panel">
 <div class="lesson"><b>WGS 84</b><br>مرجع جيوديسي عالمي يستخدمه نظام GPS، ويُعبّر عن المواقع غالباً بخط العرض والطول.</div>
@@ -78,14 +79,20 @@ footer{text-align:center;color:#8aa0b1;font-size:10px;padding:28px 8px}
 <div class="lesson"><b>تصنيف الصور</b><br>يمكن تصنيف المرئيات إلى فئات مثل مياه، نباتات، عمران، وتربة باستخدام عينات تدريب مناسبة.</div>
 <label>قيمة NIR</label><input id="nir" type="number" value="0.7" step="any">
 <label>قيمة Red</label><input id="red" type="number" value="0.2" step="any">
-<button class="primary" onclick="ndvi()">احسب NDVI</button><div id="ndres" class="result" hidden></div>
+<button class="primary" onclick="ndvi()">احسب NDVI</button><div id="ndres" class="result" hidden></div><button class="primary" onclick="saveResult('NDVI','ndres')">حفظ العملية</button>
 </div></section>
+<section id="history" class="section"><div class="topline"><button class="back" onclick="home()">رجوع</button><h2>سجل العمليات</h2></div><div class="panel"><p class="note">السجلات محفوظة داخل قاعدة بيانات الهاتف ولا تُرسل إلى أي خادم.</p><div id="historyList" class="note">جارٍ تحميل السجلات...</div><button class="primary" onclick="loadHistory()">تحديث السجل</button></div></section>
 <footer>MASTER ENGINEER • نسخة أولية محلية — لا تحتاج اتصالاً بالإنترنت</footer>
 </main>
 <script>
-function show(id){document.getElementById('home').style.display='none';document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');window.scrollTo(0,0)}
+function show(id){document.getElementById('home').style.display='none';document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');if(id==='history')loadHistory();window.scrollTo(0,0)}
 function home(){document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));document.getElementById('home').style.display='block';window.scrollTo(0,0)}
 function out(id,s){let e=document.getElementById(id);e.hidden=false;e.textContent=s}
+const nativeDB = !!(window.AndroidDB && typeof window.AndroidDB.saveRecord === 'function');
+let dbPromise=new Promise((resolve,reject)=>{if(nativeDB){resolve(null);return}if(!('indexedDB' in window)){reject('IndexedDB غير مدعوم');return}let req=indexedDB.open('MasterEngineerDB',1);req.onupgradeneeded=()=>{let db=req.result;if(!db.objectStoreNames.contains('records'))db.createObjectStore('records',{keyPath:'id',autoIncrement:true})};req.onsuccess=()=>resolve(req.result);req.onerror=()=>reject(req.error)});
+async function saveResult(type,id){let el=document.getElementById(id);if(el.hidden||!el.textContent.trim()){alert('نفّذ الحساب أولاً');return}try{if(nativeDB){window.AndroidDB.saveRecord(type,el.textContent);alert('تم حفظ العملية على الهاتف');return}let db=await dbPromise;let tx=db.transaction('records','readwrite');tx.objectStore('records').add({type,result:el.textContent,createdAt:new Date().toISOString()});tx.oncomplete=()=>alert('تم حفظ العملية على الجهاز');tx.onerror=()=>alert('تعذر حفظ العملية')}catch(e){alert('قاعدة البيانات غير متاحة: '+e)}}
+async function loadHistory(){let box=document.getElementById('historyList');try{if(nativeDB){box.innerHTML=window.AndroidDB.getRecordsHtml();return}let db=await dbPromise;let tx=db.transaction('records','readonly');let req=tx.objectStore('records').getAll();req.onsuccess=()=>{let rows=req.result.reverse();box.innerHTML=rows.length?rows.map(x=>'<div class="lesson"><b>'+x.type+'</b><br>'+x.result.replace(/\\n/g,'<br>')+'<br><small>'+new Date(x.createdAt).toLocaleString('ar-EG')+'</small></div>').join(''):'لا توجد عمليات محفوظة حتى الآن.'}}catch(e){box.textContent='قاعدة البيانات غير متاحة: '+e}}
+function toggleLang(){document.documentElement.lang=document.documentElement.lang==='ar'?'en':'ar';document.documentElement.dir=document.documentElement.lang==='ar'?'rtl':'ltr';alert(document.documentElement.lang==='ar'?'تم اختيار العربية. بعض الدروس والمصطلحات التقنية تبقى بلغتها الأصلية.':'English layout direction selected. Full English translation is a later release.')}
 function calcTotal(){let e=+te.value,n=+tn.value,d=+td.value,a=+ta.value*Math.PI/180;if(![e,n,d,a].every(Number.isFinite)||d<0)return out('tr','أدخل قيماً صحيحة.');out('tr',`ΔE = ${(d*Math.sin(a)).toFixed(3)} m\nΔN = ${(d*Math.cos(a)).toFixed(3)} m\nE(B) = ${(e+d*Math.sin(a)).toFixed(3)} m\nN(B) = ${(n+d*Math.cos(a)).toFixed(3)} m`)}
 function calcLevel(){let rl=+lr.value,bs=+lbs.value,fs=+lfs.value,hi=rl+bs;out('lres',`HI = ${hi.toFixed(3)} m\nRL النقطة الجديدة = ${(hi-fs).toFixed(3)} m`)}
 function toUTM(){let lat=+document.getElementById('lat').value,lon=+document.getElementById('lon').value;if(!Number.isFinite(lat)||!Number.isFinite(lon)||Math.abs(lat)>84||Math.abs(lon)>180)return out('gres','أدخل إحداثيات ضمن حدود UTM (خط العرض من 80° جنوباً إلى 84° شمالاً).');let zone=Math.floor((lon+180)/6)+1;let a=6378137,f=1/298.257223563,k0=.9996,e2=f*(2-f),ep2=e2/(1-e2),phi=lat*Math.PI/180,lam=lon*Math.PI/180,lam0=((zone-1)*6-180+3)*Math.PI/180,N=a/Math.sqrt(1-e2*Math.sin(phi)**2),T=Math.tan(phi)**2,C=ep2*Math.cos(phi)**2,A=Math.cos(phi)*(lam-lam0),M=a*((1-e2/4-3*e2**2/64-5*e2**3/256)*phi-(3*e2/8+3*e2**2/32+45*e2**3/1024)*Math.sin(2*phi)+(15*e2**2/256+45*e2**3/1024)*Math.sin(4*phi)-(35*e2**3/3072)*Math.sin(6*phi));let E=500000+k0*N*(A+(1-T+C)*A**3/6+(5-18*T+T*T+72*C-58*ep2)*A**5/120),North=k0*(M+N*Math.tan(phi)*(A*A/2+(5-T+9*C+4*C*C)*A**4/24+(61-58*T+T*T+600*C-330*ep2)*A**6/720));if(lat<0)North+=10000000;out('gres',`UTM Zone: ${zone}${lat>=0?'N':'S'}\nEasting: ${E.toFixed(3)} m\nNorthing: ${North.toFixed(3)} m\nDatum: WGS 84`)}
